@@ -23,13 +23,15 @@
     - Soft navigation
     - RootLayout `/app/layout.tsx`
       - <html> and <body> tags, and add metadata.
-  - <Link /> component - client side routing
-    -  <Link> components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background.
+  - Client Side Routing <Link />
+    - automatically code splits your application by route segments
+    -  (Only in PROD) whenever <Link> components appear in the browser's viewport, Next.js automatically prefetches the code for the linked route in the background. By the time the user clicks the link, the code for the destination page will already be loaded in the background, and this is what makes the page transition near-instant!
 -  Data Fetching
  
     -  Api Layer
-    -  Waterfall - Parallel data fetching
+    -  Waterfall | Parallel data fetching
 - Component Rendering
+  
   - Static Rendering - Build time - No data pages or data accross users
      - Faster Websites
      - Reduce Server Load
@@ -41,4 +43,14 @@
       - page lebel - loading.tsx
       - component lebel - Suspense
   - Partial Prerendering
-    - prerender the static parts of your route and defer the dynamic parts until the user requests them 
+    - prerender the static parts of your route and defer the dynamic parts until the user requests them
+- URL search params in SSR components
+  - Benefits:
+    - Bookmarkable and Shareable URLs
+    - Server-Side Rendering and Initial Load
+    - Analytics and Tracking
+    - Client side navigation prevent to rerender the page when the URL changes
+  - Features:
+    - useSearchParams
+    - usePathname
+    - useRoute
