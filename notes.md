@@ -54,3 +54,23 @@
     - useSearchParams
     - usePathname
     - useRoute
+- Server Actions
+  
+  - Run asynchronous code directly on the server 
+  - Functions that can be invoke into Client or Server Components
+  - [Security solution](https://nextjs.org/blog/security-nextjs-server-components-actions):
+    - POST request
+    - encrypted closures
+    - strict input checks
+    - error message hashing
+    - host restrictions
+  - Best practice to use server actions to mutate date in forms
+- Catching Error
+  - [error.tsx](https://nextjs.org/docs/app/api-reference/file-conventions/error) catches errors in your route segments, and show a fallback UI to the user.
+    - It serves as a catch-all for unexpected errors 
+    - needs to be a Client Component.
+    - It accepts two props:
+      - error: This object is an instance of JavaScript's native Error object.
+      - reset: This is a function to reset the error boundary. When executed, the function will try to re-render the route segment.
+  - [notFound](https://nextjs.org/docs/app/api-reference/functions/not-found) function and [not-found.tsx](https://nextjs.org/docs/app/api-reference/file-conventions/not-found) file to handle 404 errors (for resources that don’t exist).
+    - notFound will take precedence over error.tsx, so you can reach out for it when you want to handle more specific errors
