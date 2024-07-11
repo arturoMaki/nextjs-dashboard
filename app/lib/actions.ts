@@ -1,9 +1,57 @@
 'use server';
 
+import { signIn } from '@/auth';
 import { sql } from '@vercel/postgres';
+import { AuthError } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+
+const LoginSchema = z.object({
+  email: z.string().email({ message: "Please enter an email address"}),
+  password: z.string().min(6, { message: "Please enter a password with at least 6 characters."}),
+});
+ 
+export type LoginState = {
+  errors?: {
+    email?: string[];
+    password?: string[];
+  };
+  message?: string | null;
+};
+
+export async function authenticate(
+  _: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
+
+  const validatedFields = LoginSchema.safeParse({
+    email: formData.get('email'),
+    password: formData.get('password'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: null,
+    };
+  }
+
+  try {
+    await signIn('credentials', formData);
+    return {}
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return {message: 'Invalid credentials.' };
+        default:
+          return { message: 'Something went wrong.'} ;
+      }
+    }
+    return { message: 'Something went wrong.'} ;
+  }
+}
 
 const FormSchema = z.object({
   id: z.string(),
@@ -30,7 +78,7 @@ export type State = {
   message?: string | null;
 };
 
-export async function createInvoice(_: State, formData: FormData) {
+export async function createInvoice(_: State, formData: FormData): Promise<State> {
   const validatedFields = CreateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
