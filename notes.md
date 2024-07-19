@@ -55,7 +55,11 @@
     - Data is render server side at request time
     - Real time data
       - User specific content 
-      - Access request time information (cookies, URL params, tokens)
+      - Access request time information:
+        - cookies
+        - URL params
+        - tokens
+  
     - Streaming
       - page lebel - loading.tsx
       - component lebel - Suspense
@@ -80,7 +84,10 @@
 - Server Actions
   
   - Run asynchronous code directly on the server 
-  - Functions that can be invoke into Client or Server Components
+  - Functions that can be invoke into:
+    -  Client
+       -  For data mutation in client form [useActionState](https://react.dev/reference/react/useActionState)
+    -  Server Components
   - [Security solution](https://nextjs.org/blog/security-nextjs-server-components-actions):
     - POST request
     - encrypted closures
@@ -93,11 +100,29 @@
   
   - [error.tsx](https://nextjs.org/docs/app/api-reference/file-conventions/error) catches errors in your route segments, and show a fallback UI to the user.
     - It serves as a catch-all for unexpected errors 
-    - needs to be a Client Component.
+    - It needs to be a Client Component.
     - It accepts two props:
       - error: This object is an instance of JavaScript's native Error object.
       - reset: This is a function to reset the error boundary. When executed, the function will try to re-render the route segment.
   - [notFound](https://nextjs.org/docs/app/api-reference/functions/not-found) function and [not-found.tsx](https://nextjs.org/docs/app/api-reference/file-conventions/not-found) file to handle 404 errors (for resources that don’t exist).
     - notFound will take precedence over error.tsx, so you can reach out for it when you want to handle more specific errors
   
-- Authentication vs. Authorization 
+- Authentication vs. Authorization
+  - **Authentication** is about making sure the user is who they say they are. You're proving your identity with something you have like a username and password.
+    - NextAuth.js 
+      - `npm install next-auth@beta`
+      -  NextAuth.js abstracts away much of the complexity involved in managing sessions.
+      -  Env: should be prefix by `AUTH`: `AUTH_SECRET`
+      -  Use NextAuth function
+      - It supports idendity providers: [DOCU](https://nextjs.org/learn/dashboard-app/adding-authentication#adding-the-credentials-provider)
+        ```js
+            import GitHub from "next-auth/providers/github"
+            // ...providers: [ GitHub ] 
+        ```
+  - **Authorization** is the next step. Once a user's identity is confirmed, authorization decides what parts of the application they are allowed to use.
+    - `./auth.config.ts` u can protected pages through `authorized` callback
+    - use [middleware](https://nextjs.org/docs/app/building-your-application/routing/middleware) for authorization
+
+- Accesibility
+  - [eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)
+  - [Documentation](https://web.dev/learn/accessibility/)
