@@ -126,3 +126,7 @@
 - Accesibility
   - [eslint-plugin-jsx-a11y](https://www.npmjs.com/package/eslint-plugin-jsx-a11y)
   - [Documentation](https://web.dev/learn/accessibility/)
+
+- Docker container
+  - [documentation](https://nextjs.org/docs/app/building-your-application/deploying)
+  - [git-hub-container](https://github.com/vercel/next.js/blob/canary/examples/with-docker/README.md)
